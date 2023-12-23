@@ -56,16 +56,20 @@ BEGIN
     DECLARE email_user_count INT;
 	SELECT COUNT(*) INTO user_count FROM users WHERE UserId = id;
     
+    START TRANSACTION;
+    
 	IF user_count = 0 THEN
 		SELECT 'User is not present' as error;
-	
+        ROLLBACK;
     ELSE
         SELECT COUNT(*) INTO email_user_count FROM users WHERE users.Email = email;
         
 		IF email_user_count = 0 THEN
 			UPDATE Users SET name = username, Email = email, BirthDate = birthDate WHERE UserID = id;
+            COMMIT;
 		ELSE
 			SELECT 'Email already exists' as error;
+            ROLLBACK;
 		END IF;
         
     END IF;
