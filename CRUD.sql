@@ -70,3 +70,23 @@ CALL Update_User(3, "Abhishek", "fhs@shilf.com", "2001-05-02");
 CALL Get_User(3);
 
 
+-- Delete User --
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS Delete_User;
+CREATE PROCEDURE Delete_User(IN id INT)
+BEGIN
+	DECLARE user_count INT;
+	SELECT COUNT(*) INTO user_count FROM users WHERE UserId = id;
+    
+	IF user_count = 0 THEN
+		SELECT 'User is not present' as error;
+	ELSE
+		DELETE FROM Users WHERE UserID = id;
+	END IF;
+END //
+DELIMITER ;
+
+CALL Delete_User(1);
+CALL Get_Users();
