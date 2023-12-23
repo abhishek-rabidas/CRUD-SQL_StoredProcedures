@@ -16,7 +16,7 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL Add_User(2, "Abhishek Kumar", "avisec07@gmail.com", '2001-05-02');
+CALL Add_User(3, "Abhishek", "avisec@gmail.com", '2001-05-02');
 
 
 -- See All Users --
@@ -53,17 +53,26 @@ DROP PROCEDURE IF EXISTS Update_User;
 CREATE PROCEDURE Update_User(IN id INT, IN username VARCHAR(50), IN email VARCHAR(100), IN birthDate DATE)
 BEGIN
 	DECLARE user_count INT;
+    DECLARE email_user_count INT;
 	SELECT COUNT(*) INTO user_count FROM users WHERE UserId = id;
     
 	IF user_count = 0 THEN
 		SELECT 'User is not present' as error;
-	ELSE
-		UPDATE Users SET name = username, Email = email, BirthDate = birthDate WHERE UserID = id;
-	END IF;
+	
+    ELSE
+        SELECT COUNT(*) INTO email_user_count FROM users WHERE Email = email;
+        
+		IF email_user_count = 0 THEN
+			UPDATE Users SET name = username, Email = email, BirthDate = birthDate WHERE UserID = id;
+		ELSE
+			SELECT 'Email is already taken' as error;
+		END IF;
+	
+    END IF;
 END //
 DELIMITER ;
 
-CALL Update_User(1, "Abhishek", "fhs@shilf.com", "2001-05-02");
+CALL Update_User(1, "Abhishek", "avisec07@gmail.com", "2001-05-02");
 CALL Get_User(1);
 
 CALL Update_User(3, "Abhishek", "fhs@shilf.com", "2001-05-02");
@@ -88,5 +97,5 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL Delete_User(1);
+CALL Delete_User(2);
 CALL Get_Users();
