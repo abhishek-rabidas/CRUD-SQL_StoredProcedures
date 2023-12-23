@@ -16,7 +16,7 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL Add_User(3, "Abhishek", "avisec@gmail.com", '2001-05-02');
+CALL Add_User(3, "Abhishek", "aviseccc@gmail.com", '2001-05-02');
 
 
 -- See All Users --
@@ -60,23 +60,23 @@ BEGIN
 		SELECT 'User is not present' as error;
 	
     ELSE
-        SELECT COUNT(*) INTO email_user_count FROM users WHERE Email = email;
+        SELECT COUNT(*) INTO email_user_count FROM users WHERE users.Email = email;
         
 		IF email_user_count = 0 THEN
 			UPDATE Users SET name = username, Email = email, BirthDate = birthDate WHERE UserID = id;
 		ELSE
-			SELECT 'Email is already taken' as error;
+			SELECT 'Email already exists' as error;
 		END IF;
-	
+        
     END IF;
 END //
 DELIMITER ;
 
-CALL Update_User(1, "Abhishek", "avisec07@gmail.com", "2001-05-02");
+CALL Update_User(1, "Abhishek", "avisec08@gmail.com", "2001-05-02");
 CALL Get_User(1);
 
-CALL Update_User(3, "Abhishek", "fhs@shilf.com", "2001-05-02");
-CALL Get_User(3);
+CALL Update_User(1, "Abhishek", "asdfghj", "2001-05-02");
+CALL Get_User(2);
 
 
 -- Delete User --
